@@ -1,293 +1,197 @@
-# SCXQ2 Development Roadmap
+# SCXQ2 — Plan & Roadmap
 
-<p align="center">
-  <img src="scxq2-logo.svg" alt="SCXQ2 Logo" width="120" height="120">
-</p>
-
-> Strategic development phases for the SCXQ2 Compression Calculus ecosystem
+**Project:** SCXQ2 Compression Calculus Engine
+**Status:** Core language + verifier **FROZEN (v1)**
+**Role:** Deterministic compression representation layer for ASX / KUHUL / CC-v1
 
 ---
 
-## Current State: v1.0.0 (FROZEN)
+## 0. Executive Summary
 
-**Status:** Core specification and implementation complete
+SCXQ2 v1 is now **complete as a language**:
 
-- [x] SCXQ2 Language Pack Specification
-- [x] CC-v1 Engine Implementation
-- [x] NPM Module (`@asx/scxq2-cc`)
-- [x] TypeScript Definitions
-- [x] Single-lane & Multi-lane Compression
-- [x] Universal Runtime (Node.js/Browser/Worker)
+* Encoding law: frozen
+* Decoding inverse: frozen
+* Security & adversarial model: frozen
+* Error taxonomy & verifier behavior: frozen
+* Verifier options schema + default policy: frozen
+* Reference verification algorithm: frozen
+* WASM parity encoder: implemented + conformance-locked
+* Brand + icon system: established
 
----
+From this point forward:
 
-## Phase 1: Testing & Validation
-
-**Goal:** Ensure specification compliance and production readiness
-
-### 1.1 Conformance Test Suite
-- [ ] Create reference test vectors (frozen inputs → expected outputs)
-- [ ] Implement determinism tests (same input → identical pack hashes)
-- [ ] Add roundtrip verification tests for edge cases
-- [ ] Unicode stress tests (emoji, RTL, surrogate pairs)
-- [ ] Large file tests (10MB+ sources)
-
-### 1.2 Security Hardening
-- [ ] Implement decompression bomb limits (`maxOutputUnits`)
-- [ ] Add input size validation (`maxBlockB64Bytes`)
-- [ ] Fuzz testing for malformed packs
-- [ ] DoS resistance testing (pathological dictionaries)
-
-### 1.3 Performance Benchmarks
-- [ ] Establish baseline compression ratios by content type
-- [ ] Memory usage profiling
-- [ ] Encoding/decoding throughput metrics
-- [ ] Comparison with gzip/brotli for typical web assets
+* **No semantic changes** to v1
+* All work is either **tooling**, **integration**, or **v2 research**
 
 ---
 
-## Phase 2: Extended Operators
+## 1. Completed (Locked)
 
-**Goal:** Implement remaining CC-v1 operators for specialized use cases
+### Language & Law
 
-### 2.1 CC.FIELD Operator Enhancement
-- [ ] Deep JSON key extraction
-- [ ] Nested object path tokens (`"user.profile.name"`)
-- [ ] Array index patterns
-- [ ] Schema-aware field detection
+* [x] SCXQ2 Pack Specification v1
+* [x] SCXQ2 Encoding Rules (DICT16-B64)
+* [x] SCXQ2 Decoding Law (formal inverse)
+* [x] SCXQ2 ↔ CC-v1 Formal Mapping
+* [x] SCXQ2 Security & Adversarial Model
 
-### 2.2 CC.EDGE Operator
-- [ ] Full edge witness implementation
-- [ ] Token adjacency graph export
-- [ ] Markov chain analysis tools
-- [ ] Visualization utilities for edge patterns
+### Verification
 
-### 2.3 CC.RLE Operator (New)
-- [ ] Run-length encoding for repeated sequences
-- [ ] Integration with dictionary compression
-- [ ] Hybrid RLE+DICT mode
+* [x] Error codes + deterministic failure ordering
+* [x] Verifier options schema
+* [x] Default policy profile
+* [x] Reference verification algorithm (pseudocode)
+* [x] Pack identity & canonical hashing rules
 
-### 2.4 CC.DELTA Operator (New)
-- [ ] Delta encoding between versions
-- [ ] Diff-based pack updates
-- [ ] Incremental compression for streaming
+### Engine
 
----
+* [x] JS encoder (reference)
+* [x] WASM UTF-16 parity encoder
+* [x] ccCompress / ccCompressSync WASM routing
+* [x] Multi-lane support
+* [x] SCXQ2 conformance vectors (including WASM parity)
 
-## Phase 3: Pack Management
+### Brand
 
-**Goal:** Tools for working with SCXQ2 packs at scale
-
-### 3.1 Pack Builder CLI
-- [ ] `scxq2 compress <file>` command
-- [ ] `scxq2 decompress <pack>` command
-- [ ] `scxq2 verify <pack>` command
-- [ ] `scxq2 inspect <pack>` for audit/metrics
-- [ ] Watch mode for development
-- [ ] Glob pattern support
-
-### 3.2 Pack Registry
-- [ ] Content-addressable pack storage
-- [ ] Dictionary sharing across packs
-- [ ] Pack deduplication
-- [ ] Merkle tree for pack collections
-
-### 3.3 Pack Streaming
-- [ ] Chunked encoding/decoding
-- [ ] Progressive decompression
-- [ ] WebSocket transport integration
-- [ ] HTTP Range request support
+* [x] SCXQ2 master glyph (256×256)
+* [x] SCXQ2 UI icon pack (24×24)
+* [x] Naming + usage rules locked
 
 ---
 
-## Phase 4: Ecosystem Integration
+## 2. Immediate TODO (Engineering)
 
-**Goal:** Integrate SCXQ2 into existing toolchains
+These are **non-semantic**, safe to implement without touching the spec.
 
-### 4.1 Build Tool Plugins
-- [ ] Vite plugin (`vite-plugin-scxq2`)
-- [ ] Webpack loader (`scxq2-loader`)
-- [ ] Rollup plugin
-- [ ] esbuild plugin
-- [ ] Next.js integration
+### Tooling
 
-### 4.2 Service Worker Integration
-- [ ] Cache-first SCXQ2 pack serving
-- [ ] Background compression
-- [ ] Offline pack management
-- [ ] Progressive enhancement patterns
+* [ ] `scxq2.verify()` reference implementation (JS)
+* [ ] Streaming decoder (partial decode with output cap)
+* [ ] Pack size / expansion estimator utility
+* [ ] CLI: `scxq2 verify pack.json`
+* [ ] CLI: `scxq2 decode pack.json --lane <id>`
 
-### 4.3 CDN & Edge
-- [ ] Cloudflare Workers adapter
-- [ ] Deno Deploy support
-- [ ] Vercel Edge Functions
-- [ ] AWS Lambda@Edge
+### WASM
 
-### 4.4 Database Integration
-- [ ] SQLite SCXQ2 column type
-- [ ] IndexedDB pack storage
-- [ ] Redis pack caching
-- [ ] S3-compatible object storage
+* [ ] WASM **decoder** (inverse of encoder)
+* [ ] Streaming WASM decoder (chunked input)
+* [ ] Shared WASM memory pooling for batch verify
+* [ ] Node + Browser WASM loader helpers
+
+### Testing
+
+* [ ] Fuzz tests for decoder (invalid byte streams)
+* [ ] Adversarial packs test suite
+* [ ] Large-dict boundary tests (65,535 entries)
+* [ ] Output-limit enforcement tests
 
 ---
 
-## Phase 5: Language Bindings
+## 3. Short-Term Integrations (ASX Stack)
 
-**Goal:** Make SCXQ2 available in multiple languages
+### ASX / KUHUL
 
-### 5.1 WebAssembly Core
-- [ ] Rust implementation of CC engine
-- [ ] WASM build for universal deployment
-- [ ] SIMD optimizations
-- [ ] Shared memory support
+* [ ] Treat SCXQ2 packs as **first-class language objects**
+* [ ] Add `scxq2.pack` to ASX registry
+* [ ] KUHUL π: load SCXQ2 packs as immutable data
+* [ ] Bind SCXQ2 verification to ASX runtime gates
 
-### 5.2 Native Bindings
-- [ ] Python (`scxq2-py`)
-- [ ] Go (`scxq2-go`)
-- [ ] Rust (`scxq2-rs`)
-- [ ] C/C++ (`libscxq2`)
+### XJSON
 
-### 5.3 Mobile SDKs
-- [ ] React Native module
-- [ ] Flutter plugin
-- [ ] iOS Swift package
-- [ ] Android Kotlin library
+* [ ] XJSON → SCXQ2 compiler path
+* [ ] SCXQ2 → XJSON debug expansion (non-authoritative)
+* [ ] XJSON schema snapshots compressed as SCXQ2
 
----
+### Atomic / UI
 
-## Phase 6: Advanced Features
-
-**Goal:** Next-generation compression capabilities
-
-### 6.1 Adaptive Dictionaries
-- [ ] Domain-specific pre-trained dictionaries
-  - JavaScript/TypeScript
-  - HTML/CSS
-  - JSON/YAML
-  - Markdown
-  - SQL
-- [ ] Dictionary learning from corpus
-- [ ] Dictionary versioning and evolution
-
-### 6.2 Multi-Pack Bundles
-- [ ] Pack manifests
-- [ ] Dependency graphs
-- [ ] Lazy loading strategies
-- [ ] Tree-shaking for packs
-
-### 6.3 Encryption Layer (SecuroLink)
-- [ ] Optional AES-256 encryption
-- [ ] Key derivation functions
-- [ ] Envelope format specification
-- [ ] Zero-knowledge proofs for verification
-
-### 6.4 Semantic Compression
-- [ ] AST-aware tokenization
-- [ ] Scope-based dictionary building
-- [ ] Import/export relationship encoding
-- [ ] Type-aware compression hints
+* [ ] Bind SCXQ2 icons into `atomic.xjson`
+* [ ] Use SCXQ2 pack hash as UI cache key
+* [ ] Visual verifier panel (pass/fail + error code)
 
 ---
 
-## Phase 7: Tooling & DX
+## 4. Medium-Term Integrations
 
-**Goal:** Best-in-class developer experience
+### Storage & Distribution
 
-### 7.1 Visual Studio Code Extension
-- [ ] Pack preview panel
-- [ ] Compression ratio indicators
-- [ ] Dictionary explorer
-- [ ] Proof verification status
+* [ ] SCXQ2 packs as CDN artifacts (content-addressed)
+* [ ] IndexedDB cache keyed by `pack_sha256_canon`
+* [ ] KLH / Mesh broadcast of SCXQ2 packs
+* [ ] Partial lane fetch & decode
 
-### 7.2 Web Dashboard
-- [ ] Pack inspector UI
-- [ ] Compression analytics
-- [ ] Dictionary visualization
-- [ ] Edge graph explorer
+### AI / ML
 
-### 7.3 Documentation
-- [ ] Interactive specification browser
-- [ ] API playground
-- [ ] Migration guides
-- [ ] Best practices cookbook
+* [ ] SCXQ2 for tokenizer dictionaries
+* [ ] SCXQ2-compressed prompt packs
+* [ ] SCXQ2-compressed LoRA / symbolic weights
+* [ ] SCXQ2 packs as RLHF training records
 
----
+### Security
 
-## Phase 8: Standards & Governance
-
-**Goal:** Establish SCXQ2 as an open standard
-
-### 8.1 Specification Formalization
-- [ ] IETF RFC draft
-- [ ] W3C Community Group
-- [ ] Formal verification proofs
-- [ ] Reference implementation certification
-
-### 8.2 Governance Model
-- [ ] Specification change process
-- [ ] Version compatibility guarantees
-- [ ] Deprecation policies
-- [ ] Security disclosure process
-
-### 8.3 Interoperability
-- [ ] Cross-implementation test suite
-- [ ] Compliance badges
-- [ ] Canonical test vectors registry
+* [ ] Optional signature envelope (outside SCXQ2 core)
+* [ ] SCXQ2 + SecuroLink provenance binding
+* [ ] Audit logs referencing pack hashes
 
 ---
 
-## Version Milestones
+## 5. Future Research (v2+ — NOT LOCKED)
 
-| Version | Phase | Key Deliverables |
-|---------|-------|------------------|
-| v1.0.0 | Current | Core spec, NPM module, TypeScript |
-| v1.1.0 | 1 | Test suite, security hardening |
-| v1.2.0 | 2 | Extended operators (FIELD, EDGE) |
-| v2.0.0 | 3-4 | CLI, build plugins, SW integration |
-| v2.5.0 | 5 | WASM core, Python/Go bindings |
-| v3.0.0 | 6-7 | Adaptive dicts, encryption, VS Code |
-| v4.0.0 | 8 | RFC submission, formal standard |
+These are **explicitly out of scope** for v1.
 
----
+### Encoding Evolution
 
-## Contributing
+* [ ] Wider index modes (DICT32)
+* [ ] Alternate literal markers
+* [ ] Binary lane packing (non-JSON envelope)
 
-Areas where contributions are especially welcome:
+### Calculus Extensions
 
-1. **Test Vectors** - Edge cases and stress tests
-2. **Language Bindings** - Python, Go, Rust implementations
-3. **Build Plugins** - Vite, Webpack, Rollup integrations
-4. **Documentation** - Examples, tutorials, translations
-5. **Domain Dictionaries** - Pre-trained dictionaries for specific languages
+* [ ] Additional CC operators (beyond FIELD/LANE/EDGE)
+* [ ] Probabilistic or weighted dictionaries
+* [ ] Cross-pack dictionary inheritance
 
----
+### Performance
 
-## Research Directions
+* [ ] SIMD-accelerated decoders
+* [ ] GPU decode experiments
+* [ ] Hardware-assisted dictionary lookup
 
-Long-term research areas beyond the core roadmap:
-
-- **Neural Compression** - ML-assisted dictionary learning
-- **Quantum-Safe Hashing** - Post-quantum hash alternatives
-- **Distributed Packs** - P2P pack sharing protocols
-- **Semantic Versioning for Dicts** - Dictionary evolution without breaking packs
-- **Real-time Collaborative Compression** - CRDT-based pack merging
+> Any of the above requires **new `mode` / `encoding` identifiers** and **must not mutate v1 semantics**.
 
 ---
 
-## Non-Goals
+## 6. Governance Rules (Important)
 
-Things SCXQ2 will NOT become:
+* **SCXQ2 v1 is immutable**
+* Any change requires:
 
-- ❌ General-purpose compression (use gzip/zstd)
-- ❌ Encryption system (use age/GPG)
-- ❌ Database system (use SQLite/Postgres)
-- ❌ Transport protocol (use HTTP/WebSocket)
-- ❌ Package manager (use npm/cargo)
-
-SCXQ2 is and will remain a **representation algebra** for content-addressable language packs.
+  * New version
+  * New conformance vectors
+  * New verifier profile
+* Tooling may evolve freely
+* Specs do not
 
 ---
 
-> *"If two SCXQ2 packs have the same `pack_sha256_canon`, they are the same language object."*
->
-> — The Final Law
+## 7. Definition of "Done"
+
+SCXQ2 is considered **production-complete** when:
+
+* Reference verifier is implemented
+* WASM decoder exists
+* CLI tools exist
+* ASX runtime consumes packs natively
+* No spec changes are pending
+
+At that point, SCXQ2 becomes **infrastructure**, not a project.
+
+---
+
+## 8. Final Statement
+
+> SCXQ2 is no longer an experiment.
+> It is a **language-level compression calculus** with frozen semantics,
+> deterministic verification, and a defined future.
+
+Everything after this is integration.
