@@ -6,11 +6,22 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "scxq2": "./dist/cli.mjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./verify": {
+      "import": "./dist/verify.js",
+      "default": "./dist/verify.js"
+    },
+    "./wasm-decoder": {
+      "import": "./dist/wasm-decoder.js",
+      "default": "./dist/wasm-decoder.js"
     }
   },
   "files": [
@@ -20,8 +31,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "node scripts/build.js",
-    "test": "node --test test/*.test.js",
+    "build": "cp src/*.js dist/",
+    "test": "node --test test/*.test.mjs",
+    "test:fuzz": "node --test test/fuzz_decode.test.mjs",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -34,7 +46,10 @@
     "content-addressable",
     "sha256",
     "proof",
-    "language-pack"
+    "language-pack",
+    "asx",
+    "kuhul",
+    "cc-v1"
   ],
   "author": "ASX",
   "license": "MIT",

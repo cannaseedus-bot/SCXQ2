@@ -46,3 +46,18 @@ export {
 export { canon, sortKeysDeep, strip } from "./canon.js";
 export { sha256HexUtf8, sha256HexUtf8Sync, getNodeCrypto } from "./sha.js";
 export { bytesToBase64, base64ToBytes, isValidBase64 } from "./base64.js";
+
+// Re-export verifier API
+export {
+  scxq2PackVerify,
+  scxq2DecodeUtf16,
+  SCXQ2_DEFAULT_POLICY
+} from "./verify.js";
+
+// Re-export WASM decoder utilities
+export {
+  scxq2LoadWasm,
+  scxq2LoadWasmFromUrl,
+  scxq2CreateWasmUtf16Decoder,
+  createDecoderRouter
+} from "./wasm-decoder.js";
