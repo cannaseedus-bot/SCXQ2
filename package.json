@@ -1,5 +1,5 @@
 {
-  "name": "@asx/scxq2-cc",
+  "name": "scxq2-cc",
   "version": "1.0.0",
   "description": "SCXQ2 Compression Calculus Engine - Deterministic, proof-generating, content-addressable compression for language packs",
   "type": "module",

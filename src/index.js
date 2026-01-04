@@ -1,15 +1,15 @@
 /**
- * @asx/scxq2-cc - SCXQ2 Compression Calculus Engine
+ * scxq2-cc - SCXQ2 Compression Calculus Engine
  *
  * A deterministic, proof-generating compression engine that produces
  * content-addressable language packs following the frozen SCXQ2 specification.
  *
- * @module @asx/scxq2-cc
+ * @module scxq2-cc
  * @version 1.0.0
  *
  * @example
  * // Basic compression
- * import { ccCompress, ccDecompress } from '@asx/scxq2-cc';
+ * import { ccCompress, ccDecompress } from 'scxq2-cc';
  *
  * const pack = await ccCompress('function hello() { console.log("Hello"); }');
  * console.log(pack.proof.ok); // true
@@ -19,7 +19,7 @@
  *
  * @example
  * // Multi-lane compression
- * import { ccCompressLanes } from '@asx/scxq2-cc';
+ * import { ccCompressLanes } from 'scxq2-cc';
  *
  * const pack = await ccCompressLanes({
  *   lanes: [

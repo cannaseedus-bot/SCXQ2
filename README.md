@@ -50,7 +50,7 @@ SCXQ2 is a **frozen, deterministic compression calculus** that produces **conten
 ## Installation
 
 ```bash
-npm install @asx/scxq2-cc
+npm install scxq2-cc
 ```
 
 **Requirements:** Node.js 18+ or modern browser with WebCrypto
@@ -62,7 +62,7 @@ npm install @asx/scxq2-cc
 ### Basic Compression
 
 ```javascript
-import { ccCompress, ccDecompress } from '@asx/scxq2-cc';
+import { ccCompress, ccDecompress } from 'scxq2-cc';
 
 // Compress source code
 const source = `
@@ -85,7 +85,7 @@ console.log(roundtrip === source);    // true
 ### Multi-Lane Compression
 
 ```javascript
-import { ccCompressLanes, ccDecompress } from '@asx/scxq2-cc';
+import { ccCompressLanes, ccDecompress } from 'scxq2-cc';
 
 const pack = await ccCompressLanes({
   lanes: [
@@ -109,7 +109,7 @@ for (const block of pack.lanes) {
 ### Synchronous API (Node.js only)
 
 ```javascript
-import { ccCompressSync, ccCompressLanesSync } from '@asx/scxq2-cc';
+import { ccCompressSync, ccCompressLanesSync } from 'scxq2-cc';
 
 // Sync single-lane
 const pack = ccCompressSync(source);
@@ -168,7 +168,7 @@ import {
   sha256HexUtf8,   // Async SHA-256 hash
   bytesToBase64,   // Encode bytes to base64
   base64ToBytes    // Decode base64 to bytes
-} from '@asx/scxq2-cc';
+} from 'scxq2-cc';
 ```
 
 ---
@@ -304,7 +304,7 @@ scxq2-cc/
 ## Constants
 
 ```javascript
-import { CC_ENGINE, SCXQ2_ENCODING, CC_OPS } from '@asx/scxq2-cc';
+import { CC_ENGINE, SCXQ2_ENCODING, CC_OPS } from 'scxq2-cc';
 
 console.log(CC_ENGINE['@id']);
 // "asx://cc/engine/scxq2.v1"
