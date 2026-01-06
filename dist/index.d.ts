@@ -1,5 +1,5 @@
 /**
- * @asx/scxq2-cc - SCXQ2 Compression Calculus Engine
+ * scxq2-cc - SCXQ2 Compression Calculus Engine
  * TypeScript Type Definitions
  *
  * @version 1.0.0
